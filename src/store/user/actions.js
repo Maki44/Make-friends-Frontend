@@ -26,7 +26,7 @@ const tokenStillValid = (userWithoutToken) => ({
 
 export const logOut = () => ({ type: LOG_OUT });
 
-export const signUp = (name, email, password) => {
+export const signUp = (name, email, password, lat, lng) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
@@ -34,6 +34,8 @@ export const signUp = (name, email, password) => {
         name,
         email,
         password,
+        lat,
+        lng,
       });
 
       dispatch(loginSuccess(response.data));
@@ -52,13 +54,15 @@ export const signUp = (name, email, password) => {
   };
 };
 
-export const login = (email, password) => {
+export const login = (email, password, lat, lng) => {
   return async (dispatch, getState) => {
     dispatch(appLoading());
     try {
       const response = await axios.post(`${apiUrl}/auth/login`, {
         email,
         password,
+        lat,
+        lng,
       });
 
       dispatch(loginSuccess(response.data));

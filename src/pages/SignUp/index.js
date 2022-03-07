@@ -7,6 +7,8 @@ import { selectToken } from "../../store/user/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
+import useGeolocation from "../../hooks/useGeolocation";
+import { setMessage } from "../../store/appState/actions";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -15,67 +17,88 @@ export default function SignUp() {
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const navigate = useNavigate();
+  const location = useGeolocation();
 
   useEffect(() => {
     if (token !== null) {
       navigate("/");
     }
-  }, [token, navigate]);
+  }, [token, navigate, location]);
 
   function submitForm(event) {
     event.preventDefault();
-
-    dispatch(signUp(name, email, password));
-
-    setEmail("");
-    setPassword("");
-    setName("");
+    console.log("location", location);
+    if (location.error && location.error.code === 0) {
+      console.log("code 0", location);
+      dispatch(setMessage("danger", true, location.error.message));
+      setEmail("");
+      setPassword("");
+      setName("");
+    } else if (location.error && location.error.code === 1) {
+      console.log("code 1", location);
+      dispatch(
+        setMessage(
+          "danger",
+          true,
+          "In order to use Moody you need to enable your location"
+        )
+      );
+      setEmail("");
+      setPassword("");
+      setName("");
+    } else {
+      const lat = location.coordinates.lat;
+      const lng = location.coordinates.lng;
+      dispatch(signUp(name, email, password, lat, lng));
+      setEmail("");
+      setPassword("");
+      setName("");
+    }
   }
 
   return (
     <Container>
-      <Form as={Col} md={{ span: 6, offset: 3 }} className='mt-5'>
-        <h1 className='mt-5 mb-5'>Signup</h1>
-        <Form.Group controlId='formBasicName'>
+      <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
+        <h1 className="mt-5 mb-5">Signup</h1>
+        <Form.Group controlId="formBasicName">
           <Form.Label>Name</Form.Label>
           <Form.Control
             value={name}
             onChange={(event) => setName(event.target.value)}
-            type='text'
-            placeholder='Enter name'
+            type="text"
+            placeholder="Enter name"
             required
           />
         </Form.Group>
-        <Form.Group controlId='formBasicEmail'>
+        <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            type='email'
-            placeholder='Enter email'
+            type="email"
+            placeholder="Enter email"
             required
           />
-          <Form.Text className='text-muted'>
+          <Form.Text className="text-muted">
             We'll never share your email with anyone else.
           </Form.Text>
         </Form.Group>
-
-        <Form.Group controlId='formBasicPassword'>
+        <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            type='password'
-            placeholder='Password'
+            type="password"
+            placeholder="Password"
             required
           />
         </Form.Group>
-        <Form.Group className='mt-5'>
-          <Button variant='primary' type='submit' onClick={submitForm}>
+        <Form.Group className="mt-5">
+          <Button variant="primary" type="submit" onClick={submitForm}>
             Sign up
           </Button>
         </Form.Group>
-        <Link to='/login'>Click here to log in</Link>
+        <Link to="/login">Click here to log in</Link>
       </Form>
     </Container>
   );
