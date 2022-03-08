@@ -1,23 +1,53 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createNewActivity } from "../../store/user/actions";
+import { searchPlacesNearBy } from "../../store/places/actions";
+import { selectPlaces, selectLocation } from "../../store/places/selectors";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { Col } from "react-bootstrap";
+import Places from "../Places";
+import { useNavigate } from "react-router-dom";
 
 const MoodCard = (props) => {
   const [show, setShow] = useState(false);
-  const [maxPersons, setMaxPersons] = useState(null);
-  const [minAge, setMinAge] = useState(null);
-  const [maxAge, setMaxAge] = useState(null);
+  const [maxPersons, setMaxPersons] = useState("");
+  const [minAge, setMinAge] = useState("");
+  const [maxAge, setMaxAge] = useState("");
   const [description, setDescription] = useState("");
+  const navigate = useNavigate();
+  const places = useSelector(selectPlaces);
+  const location = useSelector(selectLocation);
+  const dispatch = useDispatch();
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const { name, id } = props;
+  const handleShow = () => {
+    setShow(true);
+    let search;
+    if (name === "Drink") {
+      search = "bar";
+    } else if (name === "Eating in a resturant") {
+      search = "restaurant";
+    } else if (name === "Walk") {
+      search = "park";
+    } else {
+      search = name;
+    }
+
+    dispatch(searchPlacesNearBy(search));
+  };
 
   const submitForm = () => {
-    console.log("submitted");
+    //console.log("submitted");
+    dispatch(
+      createNewActivity({ minAge, maxAge, maxPersons, description, id })
+    );
+    setShow(false);
+    navigate("/activities");
   };
-  const { name } = props;
+
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
@@ -73,6 +103,15 @@ const MoodCard = (props) => {
                   placeholder="put description"
                 />
               </Form.Group>
+              {places && (
+                <Form.Group className="mt-5">
+                  Places Nearby
+                  {places.map((place, i) => {
+                    return <Places key={i} place={place} />;
+                  })}
+                </Form.Group>
+              )}
+              {location ? "Location Added" : null}
               <Form.Group className="mt-5">
                 <Button variant="primary" type="submit" onClick={submitForm}>
                   Set Mood

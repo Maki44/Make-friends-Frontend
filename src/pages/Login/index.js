@@ -20,9 +20,9 @@ export default function SignUp() {
 
   useEffect(() => {
     if (token !== null) {
-      navigate("/");
+      navigate("/activities");
     }
-  }, [token, navigate, location]);
+  }, [token, navigate]);
 
   function submitForm(event) {
     event.preventDefault();

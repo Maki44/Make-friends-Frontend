@@ -5,7 +5,6 @@ const useGeolocation = () => {
     loaded: false,
     coordinates: { lat: "", lng: "" },
   });
-  console.log("location inside geolocation", location);
   const onSuccess = (location) => {
     setLocation({
       loaded: true,
@@ -17,14 +16,11 @@ const useGeolocation = () => {
   };
 
   const onError = (error) => {
-    // console.log("errorBefore", error);
     setLocation({
       loaded: true,
       error: { code: error.code, message: error.message },
     });
-    //console.log("error", error.message);
   };
-  //console.log("location", location);
   useEffect(() => {
     if (!("geolocation" in navigator)) {
       onError({

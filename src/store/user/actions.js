@@ -1,16 +1,19 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
 import { selectToken } from "./selectors";
+import { activityAdded } from "../activities/actions";
 import {
   appLoading,
   appDoneLoading,
   showMessageWithTimeout,
   setMessage,
 } from "../appState/actions";
+import { selectLocation } from "../places/selectors";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
 export const LOG_OUT = "LOG_OUT";
+export const ACTIVITY_CREATED = "ACTIVITY_CREATED";
 
 const loginSuccess = (userWithToken) => {
   return {
@@ -18,7 +21,12 @@ const loginSuccess = (userWithToken) => {
     payload: userWithToken,
   };
 };
-
+const activityCreatedSuccess = (data) => {
+  return {
+    type: ACTIVITY_CREATED,
+    payload: data,
+  };
+};
 const tokenStillValid = (userWithoutToken) => ({
   type: TOKEN_STILL_VALID,
   payload: userWithoutToken,
@@ -110,6 +118,43 @@ export const getUserWithStoredToken = () => {
       // get rid of the token by logging out
       dispatch(logOut());
       dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const createNewActivity = (data) => {
+  return async function (dispatch, getState) {
+    const { minAge, maxAge, maxPersons, description, id } = data;
+    const token = selectToken(getState());
+    const { lat, lng } = selectLocation(getState());
+    try {
+      const response = await axios.post(
+        `${apiUrl}/activities/${id}`,
+        {
+          minAge,
+          maxAge,
+          maxPersons,
+          description,
+          id,
+          lat,
+          lng,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      delete response.data["user"];
+      dispatch(activityCreatedSuccess({ ...response.data }));
+      dispatch(
+        activityAdded({
+          activity: {
+            ...response.data.activity,
+            users: [{ ...response.data.user }],
+          },
+        })
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
 };
