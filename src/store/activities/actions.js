@@ -3,10 +3,17 @@ import { apiUrl } from "../../config/constants";
 import { selectToken } from "../user/selectors";
 export const ACTIVITY_ADDED = "ACTIVITY_ADDED";
 export const ACTIVITIES_FETCHED = "ACTIVITIES_FETCHED";
+export const JOIN_ACTIVITY = "JOIN_ACTIVITY";
 
 export const activityAdded = (data) => {
   return {
     type: ACTIVITY_ADDED,
+    payload: data,
+  };
+};
+export const userJoinActivity = (data) => {
+  return {
+    type: JOIN_ACTIVITY,
     payload: data,
   };
 };

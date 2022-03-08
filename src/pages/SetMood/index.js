@@ -19,7 +19,14 @@ const SetMood = () => {
     }
   }, [token, navigate]);
   return (
-    <div style={{ display: "flex", justifyContent: "space-around" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-around",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       {moods &&
         moods.map((mood) => {
           return <MoodCard key={mood.id} name={mood.name} id={mood.id} />;

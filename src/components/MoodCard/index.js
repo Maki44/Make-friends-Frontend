@@ -50,7 +50,11 @@ const MoodCard = (props) => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button
+        variant="primary"
+        onClick={handleShow}
+        style={{ width: "200px", margin: "10px" }}
+      >
         {name}
       </Button>
 

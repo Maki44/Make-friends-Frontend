@@ -20,12 +20,19 @@ const Activities = () => {
     }
   }, [token, navigate]);
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-evenly",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       {activities &&
         activities.map((activity, i) => (
           <Activity key={i} activity={activity} />
         ))}
-    </>
+    </div>
   );
 };
 

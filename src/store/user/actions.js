@@ -1,7 +1,7 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
 import { selectToken } from "./selectors";
-import { activityAdded } from "../activities/actions";
+import { userJoinActivity, activityAdded } from "../activities/actions";
 import {
   appLoading,
   appDoneLoading,
@@ -151,6 +151,32 @@ export const createNewActivity = (data) => {
             ...response.data.activity,
             users: [{ ...response.data.user }],
           },
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const joinActivity = (id) => {
+  return async function (dispatch, getState) {
+    const token = selectToken(getState());
+    try {
+      const response = await axios.post(
+        `${apiUrl}/activities/join/${id}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("response from join", response);
+      delete response.data["user"];
+      dispatch(activityCreatedSuccess({ ...response.data }));
+      dispatch(
+        userJoinActivity({
+          activityId: response.data.activityId,
+          user: { ...response.data.user },
         })
       );
     } catch (error) {
