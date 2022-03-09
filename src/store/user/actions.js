@@ -1,19 +1,24 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
 import { selectToken } from "./selectors";
-import { userJoinActivity, activityAdded } from "../activities/actions";
+import {
+  userJoinActivity,
+  activityAdded,
+  userDisjoinActivity,
+} from "../activities/actions";
 import {
   appLoading,
   appDoneLoading,
   showMessageWithTimeout,
   setMessage,
 } from "../appState/actions";
-import { selectLocation } from "../places/selectors";
+import { selectLocation, selectPlaceName } from "../places/selectors";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
 export const LOG_OUT = "LOG_OUT";
 export const ACTIVITY_CREATED = "ACTIVITY_CREATED";
+export const DISJOIN_ACTIVITY_USER = " DISJOIN_ACTIVITY_USER";
 
 const loginSuccess = (userWithToken) => {
   return {
@@ -25,6 +30,12 @@ const activityCreatedSuccess = (data) => {
   return {
     type: ACTIVITY_CREATED,
     payload: data,
+  };
+};
+const disjoinUserActivity = (id) => {
+  return {
+    type: DISJOIN_ACTIVITY_USER,
+    payload: { activityId: id },
   };
 };
 const tokenStillValid = (userWithoutToken) => ({
@@ -127,6 +138,7 @@ export const createNewActivity = (data) => {
     const { minAge, maxAge, maxPersons, description, id } = data;
     const token = selectToken(getState());
     const { lat, lng } = selectLocation(getState());
+    const placeName = selectPlaceName(getState());
     try {
       const response = await axios.post(
         `${apiUrl}/activities/${id}`,
@@ -138,21 +150,23 @@ export const createNewActivity = (data) => {
           id,
           lat,
           lng,
+          placeName,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      delete response.data["user"];
-      dispatch(activityCreatedSuccess({ ...response.data }));
       dispatch(
         activityAdded({
           activity: {
             ...response.data.activity,
             users: [{ ...response.data.user }],
           },
+          userId: response.data.user.id,
         })
       );
+      delete response.data["user"];
+      dispatch(activityCreatedSuccess({ ...response.data }));
     } catch (error) {
       console.log(error);
     }
@@ -170,15 +184,34 @@ export const joinActivity = (id) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("response from join", response);
-      delete response.data["user"];
-      dispatch(activityCreatedSuccess({ ...response.data }));
       dispatch(
         userJoinActivity({
           activityId: response.data.activityId,
           user: { ...response.data.user },
         })
       );
+      delete response.data["user"];
+      dispatch(activityCreatedSuccess({ ...response.data }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const disJoinActivity = (id) => {
+  return async function (dispatch, getState) {
+    const token = selectToken(getState());
+    try {
+      const response = await axios.put(
+        `${apiUrl}/activities/disjoin/${id}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      dispatch(userDisjoinActivity(response.data));
+      dispatch(disjoinUserActivity(response.data.id));
     } catch (error) {
       console.log(error);
     }

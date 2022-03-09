@@ -6,7 +6,7 @@ const Places = (props) => {
   const { name, rating, location } = props.place;
   const dispatch = useDispatch();
   const addLocation = () => {
-    dispatch(locationAdded(location));
+    dispatch(locationAdded({ location, name }));
   };
   return (
     <Card border="primary" style={{ width: "18rem" }}>

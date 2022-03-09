@@ -1,27 +1,36 @@
 import { useSelector, useDispatch } from "react-redux";
 import { checkUserIfJoinOrNot } from "../../store/user/selectors";
-import { joinActivity } from "../../store/user/actions";
+import { joinActivity, disJoinActivity } from "../../store/user/actions";
+import { Link } from "react-router-dom";
 const Activity = (props) => {
-  const { mood, users, city, maxPersons, minAge, maxAge, id } = props.activity;
+  const { mood, users, address, maxPersons, minAge, maxAge, id, placeName } =
+    props.activity;
   const { name } = mood;
   const userJoin = useSelector(checkUserIfJoinOrNot(id));
   const dispatch = useDispatch();
   const join = () => {
     dispatch(joinActivity(id));
   };
+  const disjoin = () => {
+    dispatch(disJoinActivity(id));
+  };
   return (
     <div style={{ width: "300px", border: "5px solid red", margin: "10px" }}>
       <h3>{name}</h3>
-      <p>
+      <Link to={`/users/${id}`}>
         Users joined: {users.length}/{maxPersons}
-      </p>
-
-      <p>location : {city}</p>
+      </Link>
+      <p>Location : {address}</p>
+      <p>Place Name : {placeName}</p>
       <p>
         {" "}
         Age range : {minAge} - {maxAge}
       </p>
-      <button onClick={join}>{userJoin ? "Disjoin" : "Join"}</button>
+      {userJoin ? (
+        <button onClick={disjoin}>Disjoin </button>
+      ) : (
+        <button onClick={join}>Join</button>
+      )}
     </div>
   );
 };

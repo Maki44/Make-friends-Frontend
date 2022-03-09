@@ -27,7 +27,6 @@ export default function SignUp() {
 
   function submitForm(event) {
     event.preventDefault();
-    console.log("location", location);
     if (location.error && location.error.code === 0) {
       console.log("code 0", location);
       dispatch(setMessage("danger", true, location.error.message));
@@ -35,7 +34,6 @@ export default function SignUp() {
       setPassword("");
       setName("");
     } else if (location.error && location.error.code === 1) {
-      console.log("code 1", location);
       dispatch(
         setMessage(
           "danger",

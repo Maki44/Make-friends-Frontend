@@ -13,6 +13,7 @@ import { selectAppLoading } from "./store/appState/selectors";
 import { getUserWithStoredToken } from "./store/user/actions";
 import SetMood from "./pages/SetMood";
 import Activities from "./pages/Activities";
+import Users from "./pages/Users";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<Login />} />
         <Route path="/activities" element={<Activities />} />
+        <Route path="/users/:id" element={<Users />} />
       </Routes>
     </div>
   );

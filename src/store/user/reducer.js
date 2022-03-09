@@ -3,6 +3,7 @@ import {
   LOGIN_SUCCESS,
   TOKEN_STILL_VALID,
   ACTIVITY_CREATED,
+  DISJOIN_ACTIVITY_USER,
 } from "./actions";
 
 const initialState = {
@@ -27,7 +28,17 @@ const reducer = (state = initialState, action) => {
     case ACTIVITY_CREATED: {
       return {
         ...state,
-        userActivity: [...state.userActivity, { ...action.payload }],
+        userActivity: [{ ...action.payload }],
+      };
+    }
+    case DISJOIN_ACTIVITY_USER: {
+      const { activityId } = action.payload;
+      const newUserActivity = state.userActivity.filter(
+        (activity) => activity.activityId !== activityId
+      );
+      return {
+        ...state,
+        userActivity: newUserActivity,
       };
     }
     default:

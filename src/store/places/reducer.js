@@ -2,6 +2,7 @@ import { PLACES_FETCHED, LOCATION_ADDED } from "./actions";
 const initialState = {
   recommendedPlaces: null,
   selectedLocation: null,
+  placeName: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,13 +11,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         recommendedPlaces: action.payload,
+        selectedLocation: null,
+        placeName: null,
       };
     }
     case LOCATION_ADDED: {
       return {
         ...state,
         recommendedPlaces: null,
-        selectedLocation: action.payload,
+        selectedLocation: action.payload.location,
+        placeName: action.payload.name,
       };
     }
 

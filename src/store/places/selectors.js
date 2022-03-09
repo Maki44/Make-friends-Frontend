@@ -16,3 +16,5 @@ export const selectPlaces = (state) => {
   }
 };
 export const selectLocation = (state) => state.places.selectedLocation;
+
+export const selectPlaceName = (state) => state.places.placeName;
