@@ -4,6 +4,7 @@ import {
   TOKEN_STILL_VALID,
   ACTIVITY_CREATED,
   DISJOIN_ACTIVITY_USER,
+  UPDATE_USER_BIO_PASSIONS,
 } from "./actions";
 
 const initialState = {
@@ -11,20 +12,24 @@ const initialState = {
   name: null,
   email: null,
   userActivity: [],
+  userPassions: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_SUCCESS:
+    case LOGIN_SUCCESS: {
       localStorage.setItem("token", action.payload.token);
-      return { ...state, ...action.payload };
-
+      const { passions } = action.payload;
+      return { ...state, ...action.payload, userPassions: passions };
+    }
     case LOG_OUT:
       localStorage.removeItem("token");
       return { ...initialState, token: null };
 
-    case TOKEN_STILL_VALID:
-      return { ...state, ...action.payload };
+    case TOKEN_STILL_VALID: {
+      const { passions } = action.payload;
+      return { ...state, ...action.payload, userPassions: passions };
+    }
     case ACTIVITY_CREATED: {
       return {
         ...state,
@@ -39,6 +44,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         userActivity: newUserActivity,
+      };
+    }
+    case UPDATE_USER_BIO_PASSIONS: {
+      const { bio, passions } = action.payload;
+      return {
+        ...state,
+        bio,
+        userPassions: [...passions],
       };
     }
     default:

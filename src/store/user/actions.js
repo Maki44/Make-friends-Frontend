@@ -1,6 +1,8 @@
 import { apiUrl } from "../../config/constants";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { selectToken } from "./selectors";
+import { passionids } from "../../utils/passionsId";
 import {
   userJoinActivity,
   activityAdded,
@@ -18,7 +20,8 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
 export const LOG_OUT = "LOG_OUT";
 export const ACTIVITY_CREATED = "ACTIVITY_CREATED";
-export const DISJOIN_ACTIVITY_USER = " DISJOIN_ACTIVITY_USER";
+export const DISJOIN_ACTIVITY_USER = "DISJOIN_ACTIVITY_USER";
+export const UPDATE_USER_BIO_PASSIONS = "UPDATE_USER_BIO_PASSIONS";
 
 const loginSuccess = (userWithToken) => {
   return {
@@ -42,7 +45,12 @@ const tokenStillValid = (userWithoutToken) => ({
   type: TOKEN_STILL_VALID,
   payload: userWithoutToken,
 });
-
+const updateUserBioPassions = (data) => {
+  return {
+    type: UPDATE_USER_BIO_PASSIONS,
+    payload: data,
+  };
+};
 export const logOut = () => ({ type: LOG_OUT });
 
 export const signUp = (name, email, password, lat, lng) => {
@@ -85,6 +93,7 @@ export const login = (email, password, lat, lng) => {
       });
 
       dispatch(loginSuccess(response.data));
+      console.log("login", response.data);
       dispatch(showMessageWithTimeout("success", false, "welcome back!", 1500));
       dispatch(appDoneLoading());
     } catch (error) {
@@ -212,6 +221,31 @@ export const disJoinActivity = (id) => {
 
       dispatch(userDisjoinActivity(response.data));
       dispatch(disjoinUserActivity(response.data.id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updateUserProfile = (bio, passions) => {
+  return async function (dispatch, getState) {
+    const token = selectToken(getState());
+    // add a function that will get you passions id
+    const allPassions = getState().passions.allPassions;
+    const passionIds = passionids(allPassions, passions);
+    try {
+      const response = await axios.put(
+        `${apiUrl}/passions/update`,
+        { bio, passionIds },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("response edit", response);
+      const { data } = response;
+      dispatch(
+        updateUserBioPassions({ bio: data.bio, passions: data.passions })
+      );
     } catch (error) {
       console.log(error);
     }

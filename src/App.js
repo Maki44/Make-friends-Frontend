@@ -14,6 +14,7 @@ import { getUserWithStoredToken } from "./store/user/actions";
 import SetMood from "./pages/SetMood";
 import Activities from "./pages/Activities";
 import Users from "./pages/Users";
+import MySpace from "./pages/MySpace";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/activities" element={<Activities />} />
         <Route path="/users/:id" element={<Users />} />
+        <Route path="/mySpace" element={<MySpace />} />
       </Routes>
     </div>
   );

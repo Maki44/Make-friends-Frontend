@@ -1,10 +1,10 @@
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 const User = (props) => {
-  const { name } = props.user;
+  const { name, avatar } = props.user;
   return (
     <Card style={{ width: "18rem" }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
+      <Card.Img variant="top" src={avatar} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
         <Card.Text>
