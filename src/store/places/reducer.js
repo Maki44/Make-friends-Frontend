@@ -3,6 +3,7 @@ const initialState = {
   recommendedPlaces: null,
   selectedLocation: null,
   placeName: null,
+  placePhoto: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -16,11 +17,13 @@ const reducer = (state = initialState, action) => {
       };
     }
     case LOCATION_ADDED: {
+      const { location, name, photo } = action.payload;
       return {
         ...state,
         recommendedPlaces: null,
-        selectedLocation: action.payload.location,
-        placeName: action.payload.name,
+        selectedLocation: location,
+        placeName: name,
+        placePhoto: photo,
       };
     }
 

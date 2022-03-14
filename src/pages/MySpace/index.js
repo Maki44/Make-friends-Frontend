@@ -1,6 +1,11 @@
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import React, { useState } from "react";
-import { selectUser, selectUserPassions } from "../../store/user/selectors";
+import { useNavigate } from "react-router-dom";
+import {
+  selectUser,
+  selectUserPassions,
+  selectToken,
+} from "../../store/user/selectors";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
@@ -11,6 +16,13 @@ const MySpace = () => {
   const [editMode, setEditMode] = useState(false);
   const [avatarMode, setAvatarMode] = useState(false);
   const passions = useSelector(selectUserPassions);
+  const token = useSelector(selectToken);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (token === null) {
+      navigate("/");
+    }
+  }, [token, navigate]);
   return (
     <div>
       <Container>
@@ -37,7 +49,7 @@ const MySpace = () => {
           </Card>
         )}
         <h3>{user.name}</h3>
-        <img src={user.avatar} />
+        <img src={user.avatar} alt="user avatar" />
         <ul>
           {passions.map((passion, i) => (
             <li key={i}>{passion}</li>

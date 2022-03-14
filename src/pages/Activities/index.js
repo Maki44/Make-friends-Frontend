@@ -29,16 +29,17 @@ const Activities = () => {
         alignItems: "center",
       }}
     >
-      {activities.length !== 0 ? (
-        activities.map((activity, i) => (
-          <Activity key={i} activity={activity} />
-        ))
-      ) : (
-        <div>
-          <h2>No Activities Near You</h2>
-          <Button onClick={() => navigate("/setMood")}>Create One</Button>
-        </div>
-      )}
+      {activities &&
+        (activities.length !== 0 ? (
+          activities.map((activity, i) => (
+            <Activity key={i} activity={activity} />
+          ))
+        ) : (
+          <div>
+            <h2>No Activities Near You</h2>
+            <Button onClick={() => navigate("/setMood")}>Create One</Button>
+          </div>
+        ))}
     </div>
   );
 };

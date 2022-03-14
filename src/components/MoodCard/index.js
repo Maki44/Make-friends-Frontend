@@ -39,7 +39,6 @@ const MoodCard = (props) => {
   };
 
   const submitForm = () => {
-    //console.log("submitted");
     dispatch(createNewActivity({ minAge, maxAge, maxPersons, id }));
     setShow(false);
     navigate("/activities");

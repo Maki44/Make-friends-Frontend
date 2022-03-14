@@ -13,7 +13,11 @@ import {
   showMessageWithTimeout,
   setMessage,
 } from "../appState/actions";
-import { selectLocation, selectPlaceName } from "../places/selectors";
+import {
+  selectLocation,
+  selectPlaceName,
+  selectPlacePhoto,
+} from "../places/selectors";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
@@ -154,6 +158,7 @@ export const createNewActivity = (data) => {
     const token = selectToken(getState());
     const { lat, lng } = selectLocation(getState());
     const placeName = selectPlaceName(getState());
+    const photo = selectPlacePhoto(getState());
     try {
       const response = await axios.post(
         `${apiUrl}/activities/${id}`,
@@ -166,6 +171,7 @@ export const createNewActivity = (data) => {
           lat,
           lng,
           placeName,
+          photo,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
