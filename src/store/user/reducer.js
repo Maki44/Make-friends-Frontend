@@ -5,6 +5,7 @@ import {
   ACTIVITY_CREATED,
   DISJOIN_ACTIVITY_USER,
   UPDATE_USER_BIO_PASSIONS,
+  UPDATE_USER_AVATAR,
 } from "./actions";
 
 const initialState = {
@@ -52,6 +53,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         bio,
         userPassions: [...passions],
+      };
+    }
+    case UPDATE_USER_AVATAR: {
+      return {
+        ...state,
+        avatar: action.payload.avatar,
       };
     }
     default:

@@ -1,5 +1,4 @@
 import { apiUrl } from "../../config/constants";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import { selectToken } from "./selectors";
 import { passionids } from "../../utils/passionsId";
@@ -22,6 +21,7 @@ export const LOG_OUT = "LOG_OUT";
 export const ACTIVITY_CREATED = "ACTIVITY_CREATED";
 export const DISJOIN_ACTIVITY_USER = "DISJOIN_ACTIVITY_USER";
 export const UPDATE_USER_BIO_PASSIONS = "UPDATE_USER_BIO_PASSIONS";
+export const UPDATE_USER_AVATAR = "UPDATE_USER_AVATAR";
 
 const loginSuccess = (userWithToken) => {
   return {
@@ -48,6 +48,12 @@ const tokenStillValid = (userWithoutToken) => ({
 const updateUserBioPassions = (data) => {
   return {
     type: UPDATE_USER_BIO_PASSIONS,
+    payload: data,
+  };
+};
+const userAvatar = (data) => {
+  return {
+    type: UPDATE_USER_AVATAR,
     payload: data,
   };
 };
@@ -246,6 +252,39 @@ export const updateUserProfile = (bio, passions) => {
       dispatch(
         updateUserBioPassions({ bio: data.bio, passions: data.passions })
       );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const updateUserAvatar = (avatarCharacters) => {
+  return async function (dispatch, getState) {
+    const {
+      hairStyles,
+      accessories,
+      hairColors,
+      hatColors,
+      facialHairs,
+      clothes,
+      eyes,
+      eyebrow,
+      mouth,
+      skin,
+    } = avatarCharacters;
+    const img = `https://avataaars.io/?avatarStyle=Circle&topType=${hairStyles}&accessoriesType=${accessories}&hairColor=${hairColors}&hatColor=${hatColors}&facialHairType=${facialHairs}&clotheType=${clothes}&eyeType=${eyes}&eyebrowType=${eyebrow}&mouthType=${mouth}&skinColor=${skin}`;
+    try {
+      const token = selectToken(getState());
+      const response = await axios.put(
+        `${apiUrl}/avatars/user`,
+        { avatar: img },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const { avatar } = response.data;
+      console.log("Avatart", response.data);
+      dispatch(userAvatar({ avatar }));
     } catch (error) {
       console.log(error);
     }

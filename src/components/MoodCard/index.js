@@ -16,7 +16,6 @@ const MoodCard = (props) => {
   const [maxPersons, setMaxPersons] = useState("");
   const [minAge, setMinAge] = useState("");
   const [maxAge, setMaxAge] = useState("");
-  const [description, setDescription] = useState("");
   const navigate = useNavigate();
   const places = useSelector(selectPlaces);
   const location = useSelector(selectLocation);
@@ -41,9 +40,7 @@ const MoodCard = (props) => {
 
   const submitForm = () => {
     //console.log("submitted");
-    dispatch(
-      createNewActivity({ minAge, maxAge, maxPersons, description, id })
-    );
+    dispatch(createNewActivity({ minAge, maxAge, maxPersons, id }));
     setShow(false);
     navigate("/activities");
   };
@@ -71,7 +68,7 @@ const MoodCard = (props) => {
           <Container>
             <Form as={Col} md={{ span: 6, offset: 3 }} className="mt-5">
               <h1 className="mt-5 mb-5">{`I am in mood for ${name}`}</h1>
-              <Form.Group controlId="formBasicEmail">
+              <Form.Group>
                 <Form.Label>Max persons</Form.Label>
                 <Form.Control
                   value={maxPersons}
@@ -80,7 +77,7 @@ const MoodCard = (props) => {
                   placeholder="Max pesrsons"
                 />
               </Form.Group>
-              <Form.Group controlId="formBasicEmail">
+              <Form.Group>
                 <Form.Label>Min Age</Form.Label>
                 <Form.Control
                   value={minAge}
@@ -89,7 +86,7 @@ const MoodCard = (props) => {
                   placeholder="Min Age"
                 />
               </Form.Group>
-              <Form.Group controlId="formBasicEmail">
+              <Form.Group>
                 <Form.Label>Max Age</Form.Label>
                 <Form.Control
                   value={maxAge}
@@ -98,15 +95,7 @@ const MoodCard = (props) => {
                   placeholder="Max Age"
                 />
               </Form.Group>
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                  type="text"
-                  placeholder="put description"
-                />
-              </Form.Group>
+
               {places && (
                 <Form.Group className="mt-5">
                   Places Nearby

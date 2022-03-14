@@ -5,6 +5,7 @@ import mood from "./moods/reducer";
 import activities from "./activities/reducer";
 import places from "./places/reducer";
 import passions from "./passions/reducer";
+import avatar from "./avatar/reducer";
 
 export default combineReducers({
   appState,
@@ -13,4 +14,5 @@ export default combineReducers({
   activities,
   places,
   passions,
+  avatar,
 });

@@ -25,3 +25,15 @@ export const selectUserPassions = (state) => {
   });
   return passions;
 };
+
+export const selectUserAvatar = (state) => {
+  let url_string = state.user.avatar;
+
+  const params = new URLSearchParams(url_string);
+  const avatarCharacters = {};
+  for (const param of params) {
+    console.log(param[1]);
+    avatarCharacters[param[0]] = param[1];
+  }
+  return avatarCharacters;
+};

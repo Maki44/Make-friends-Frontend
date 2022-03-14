@@ -9,7 +9,7 @@ import MyAvatarForm from "./AvatarForm";
 const MySpace = () => {
   const user = useSelector(selectUser);
   const [editMode, setEditMode] = useState(false);
-  const [postStoryMode, setpostStoryMode] = useState(false);
+  const [avatarMode, setAvatarMode] = useState(false);
   const passions = useSelector(selectUserPassions);
   return (
     <div>
@@ -19,11 +19,8 @@ const MySpace = () => {
             <Button onClick={() => setEditMode(!editMode)}>
               {editMode ? "Close" : "Edit my space"}
             </Button>
-            <Button
-              onClick={() => setpostStoryMode(!postStoryMode)}
-              className="mt-2"
-            >
-              {postStoryMode ? "Close" : "Update My Avatar"}
+            <Button onClick={() => setAvatarMode(!avatarMode)} className="mt-2">
+              {avatarMode ? "Close" : "Update My Avatar"}
             </Button>
           </Card>
         }
@@ -34,9 +31,9 @@ const MySpace = () => {
           </Card>
         )}
 
-        {postStoryMode && (
+        {avatarMode && (
           <Card>
-            <MyAvatarForm />
+            <MyAvatarForm setAvatarMode={setAvatarMode} />
           </Card>
         )}
         <h3>{user.name}</h3>

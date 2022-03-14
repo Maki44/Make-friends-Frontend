@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchAllActivities } from "../../store/activities/actions";
 import { selectAllActivities } from "../../store/activities/selectors";
 import { selectToken } from "../../store/user/selectors";
+import { Button } from "react-bootstrap";
 const Activities = () => {
   const activities = useSelector(selectAllActivities);
   const token = useSelector(selectToken);
@@ -28,10 +29,16 @@ const Activities = () => {
         alignItems: "center",
       }}
     >
-      {activities &&
+      {activities.length !== 0 ? (
         activities.map((activity, i) => (
           <Activity key={i} activity={activity} />
-        ))}
+        ))
+      ) : (
+        <div>
+          <h2>No Activities Near You</h2>
+          <Button onClick={() => navigate("/setMood")}>Create One</Button>
+        </div>
+      )}
     </div>
   );
 };
