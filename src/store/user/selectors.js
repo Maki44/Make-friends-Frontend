@@ -18,7 +18,14 @@ export const checkUserIfJoinOrNot = (id) => (state) => {
     }
   }
 };
-
+export const selectUserActivityId = (state) => {
+  const userActivity = state.user.userActivity;
+  if (userActivity.length === 0) {
+    return null;
+  } else {
+    return userActivity[0].activityId;
+  }
+};
 export const selectUserPassions = (state) => {
   const passions = state.user.userPassions.map((passion) => {
     return passion.name;

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "./App.css";
 
 import { Routes, Route } from "react-router-dom";
+import io from "socket.io-client";
 import Navigation from "./components/Navigation";
 import Loading from "./components/Loading";
 import MessageBox from "./components/MessageBox";
@@ -15,7 +16,8 @@ import SetMood from "./pages/SetMood";
 import Activities from "./pages/Activities";
 import Users from "./pages/Users";
 import MySpace from "./pages/MySpace";
-
+import Chat from "./components/Chat";
+const socket = io.connect("http://localhost:4000");
 function App() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectAppLoading);
@@ -33,9 +35,10 @@ function App() {
         <Route path="/setMood" element={<SetMood />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<Login />} />
-        <Route path="/activities" element={<Activities />} />
+        <Route path="/activities" element={<Activities socket={socket} />} />
         <Route path="/users/:id" element={<Users />} />
         <Route path="/mySpace" element={<MySpace />} />
+        <Route path="/chat" element={<Chat socket={socket} />} />
       </Routes>
     </div>
   );

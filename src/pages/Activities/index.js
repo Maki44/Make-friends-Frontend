@@ -6,7 +6,7 @@ import { fetchAllActivities } from "../../store/activities/actions";
 import { selectAllActivities } from "../../store/activities/selectors";
 import { selectToken } from "../../store/user/selectors";
 import { Button } from "react-bootstrap";
-const Activities = () => {
+const Activities = (props) => {
   const activities = useSelector(selectAllActivities);
   const token = useSelector(selectToken);
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Activities = () => {
       {activities &&
         (activities.length !== 0 ? (
           activities.map((activity, i) => (
-            <Activity key={i} activity={activity} />
+            <Activity key={i} activity={activity} socket={props.socket} />
           ))
         ) : (
           <div>

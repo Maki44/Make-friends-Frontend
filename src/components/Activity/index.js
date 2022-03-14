@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { checkUserIfJoinOrNot } from "../../store/user/selectors";
 import { joinActivity, disJoinActivity } from "../../store/user/actions";
+import { selectUserActivityId } from "../../store/user/selectors";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
@@ -16,14 +18,22 @@ const Activity = (props) => {
     placeName,
     photo,
   } = props.activity;
+  const { socket } = props;
   const { name } = mood;
   const userJoin = useSelector(checkUserIfJoinOrNot(id));
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const room = useSelector(selectUserActivityId);
   const join = () => {
     dispatch(joinActivity(id));
   };
   const disjoin = () => {
     dispatch(disJoinActivity(id));
+  };
+
+  const chat = () => {
+    socket.emit("join_room", room);
+    navigate("/chat");
   };
   return (
     <Card border="primary" style={{ width: "18rem" }}>
@@ -39,7 +49,10 @@ const Activity = (props) => {
           Age range : {minAge} - {maxAge}
         </Card.Text>
         {userJoin ? (
-          <Button onClick={disjoin}>Disjoin </Button>
+          <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+            <Button onClick={disjoin}>Disjoin </Button>
+            <Button onClick={chat}>Chat </Button>
+          </div>
         ) : (
           <Button onClick={join}>Join</Button>
         )}
