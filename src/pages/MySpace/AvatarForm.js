@@ -83,7 +83,7 @@ export default function MyAvatarForm(props) {
           </Form.Group>
           {showHatColor ? (
             <Form.Group>
-              <Form.Label htmlFor="hatColor">Hat Color</Form.Label>{" "}
+              <Form.Label htmlFor="hatColor">Hat Color </Form.Label>{" "}
               <select
                 id="hatColor"
                 onChange={(e) => setHatColors(e.target.value)}
@@ -97,7 +97,7 @@ export default function MyAvatarForm(props) {
             </Form.Group>
           ) : (
             <Form.Group>
-              <Form.Label htmlFor="hairColor">Hair Color</Form.Label>{" "}
+              <Form.Label htmlFor="hairColor">Hair Color 💈</Form.Label>{" "}
               <select
                 id="hairColor"
                 onChange={(e) => setHairColors(e.target.value)}
@@ -138,7 +138,7 @@ export default function MyAvatarForm(props) {
             </select>
           </Form.Group>
           <Form.Group>
-            <Form.Label htmlFor="clothes">Clothes</Form.Label>{" "}
+            <Form.Label htmlFor="clothes">Clothes 👔</Form.Label>{" "}
             <select id="clothes" onChange={(e) => setClothes(e.target.value)}>
               {avatar.clothes.map((cloth) => (
                 <option key={cloth.id} value={cloth.name}>
@@ -148,7 +148,7 @@ export default function MyAvatarForm(props) {
             </select>
           </Form.Group>
           <Form.Group>
-            <Form.Label htmlFor="eyes">Eyes</Form.Label>{" "}
+            <Form.Label htmlFor="eyes">Eyes 👁</Form.Label>{" "}
             <select id="eyes" onChange={(e) => setEyes(e.target.value)}>
               {avatar.eyes.map((eye) => (
                 <option key={eye.id} value={eye.name}>
@@ -158,7 +158,7 @@ export default function MyAvatarForm(props) {
             </select>
           </Form.Group>
           <Form.Group>
-            <Form.Label htmlFor="eyebrow">Eyebrow</Form.Label>{" "}
+            <Form.Label htmlFor="eyebrow">Eyebrow ✏️</Form.Label>{" "}
             <select id="eyebrow" onChange={(e) => setEyebrow(e.target.value)}>
               {avatar.eyebrows.map((eyebrow) => (
                 <option key={eyebrow.id}>{eyebrow.name}</option>
@@ -166,7 +166,7 @@ export default function MyAvatarForm(props) {
             </select>
           </Form.Group>
           <Form.Group>
-            <Form.Label htmlFor="mouth">Mouth</Form.Label>{" "}
+            <Form.Label htmlFor="mouth">Mouth 👄</Form.Label>{" "}
             <select id="mouth" onChange={(e) => setMouth(e.target.value)}>
               {avatar.mouthes.map((mouth) => (
                 <option key={mouth.id} value={mouth.name}>
@@ -176,7 +176,7 @@ export default function MyAvatarForm(props) {
             </select>
           </Form.Group>
           <Form.Group>
-            <Form.Label htmlFor="skin">Skin</Form.Label>{" "}
+            <Form.Label htmlFor="skin">Skin 🎨</Form.Label>{" "}
             <select id="skin" onChange={(e) => setSkin(e.target.value)}>
               {avatar.skins.map((skin) => (
                 <option key={skin.id} value={skin.name}>

@@ -27,6 +27,9 @@ export const selectUserActivityId = (state) => {
   }
 };
 export const selectUserPassions = (state) => {
+  if (state.user.userPassions.length === 0) {
+    return null;
+  }
   const passions = state.user.userPassions.map((passion) => {
     return passion.name;
   });

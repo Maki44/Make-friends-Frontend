@@ -48,14 +48,33 @@ const Activity = (props) => {
         <Card.Text>
           Age range : {minAge} - {maxAge}
         </Card.Text>
-        {userJoin ? (
+        {users.length < maxPersons ? (
+          userJoin ? (
+            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+              <Button onClick={disjoin}>Disjoin </Button>
+              <Button onClick={chat}>Chat </Button>
+            </div>
+          ) : (
+            <Button onClick={join}>Join</Button>
+          )
+        ) : userJoin ? (
+          <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+            <Button onClick={disjoin}>Disjoin </Button>
+            <Button onClick={chat}>Chat </Button>
+          </div>
+        ) : (
+          <Button onClick={join} disabled>
+            Join
+          </Button>
+        )}
+        {/* {userJoin ? (
           <div style={{ display: "flex", justifyContent: "space-evenly" }}>
             <Button onClick={disjoin}>Disjoin </Button>
             <Button onClick={chat}>Chat </Button>
           </div>
         ) : (
           <Button onClick={join}>Join</Button>
-        )}
+        )} */}
       </Card.Body>
     </Card>
   );

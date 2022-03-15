@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectUser, selectUserActivityId } from "../../store/user/selectors";
+import { useNavigate } from "react-router-dom";
+import {
+  selectUser,
+  selectUserActivityId,
+  selectToken,
+} from "../../store/user/selectors";
 
 import ScrollToBottom from "react-scroll-to-bottom";
 import "./style.css";
 
 function Chat({ socket }) {
   const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
   const room = useSelector(selectUserActivityId);
+  const navigate = useNavigate();
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
 
@@ -36,6 +43,11 @@ function Chat({ socket }) {
     });
   }, [socket]);
 
+  useEffect(() => {
+    if (token === null) {
+      navigate("/");
+    }
+  }, [token, navigate]);
   return (
     <div className="chat-window">
       <div className="chat-header">

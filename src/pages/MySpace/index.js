@@ -50,11 +50,13 @@ const MySpace = () => {
         )}
         <h3>{user.name}</h3>
         <img src={user.avatar} alt="user avatar" />
-        <ul>
-          {passions.map((passion, i) => (
-            <li key={i}>{passion}</li>
-          ))}
-        </ul>
+        {passions && (
+          <ul>
+            {passions.map((passion, i) => (
+              <li key={i}>{passion}</li>
+            ))}
+          </ul>
+        )}
 
         <p>{user.bio}</p>
       </Container>
