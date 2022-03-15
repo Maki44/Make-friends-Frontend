@@ -11,6 +11,9 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import MySpaceForm from "./MySpaceForm";
 import MyAvatarForm from "./AvatarForm";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+import("./style.css");
 const MySpace = () => {
   const user = useSelector(selectUser);
   const [editMode, setEditMode] = useState(false);
@@ -48,18 +51,41 @@ const MySpace = () => {
             <MyAvatarForm setAvatarMode={setAvatarMode} />
           </Card>
         )}
-        <h3>{user.name}</h3>
-        <img src={user.avatar} alt="user avatar" />
-        {passions && (
-          <ul>
-            {passions.map((passion, i) => (
-              <li key={i}>{passion}</li>
-            ))}
-          </ul>
-        )}
-
-        <p>{user.bio}</p>
       </Container>
+
+      <div
+        style={{
+          display: "flex",
+          marginLeft: 580,
+          marginTop: 20,
+        }}
+      >
+        <h3>Your username: {user.name}</h3>
+      </div>
+      <div style={{ display: "flex" }}>
+        <div className="AvatarMySpace">
+          <img src={user.avatar} alt="user avatar" />
+        </div>
+        <div className="PassionUserMySpace">
+          <div>
+            <p>My Passion: </p>
+          </div>
+          <div style={{ display: "flex" }}>
+            {passions &&
+              passions.map((passion, i) => (
+                <Stack direction="row" spacing={1}>
+                  <Chip
+                    label={passion}
+                    style={{ marginLeft: 10, marginBottom: 80 }}
+                    variant="outlined"
+                  ></Chip>
+                </Stack>
+              ))}
+          </div>
+          <p>Bio:</p>
+          <p>{user.bio}</p>
+        </div>
+      </div>
     </div>
   );
 };

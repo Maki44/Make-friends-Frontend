@@ -25,8 +25,9 @@ const Activities = (props) => {
       style={{
         display: "flex",
         justifyContent: "space-evenly",
-        flexDirection: "column",
+        flexDirection: "row",
         alignItems: "center",
+        flexWrap: "wrap",
       }}
     >
       {activities &&
