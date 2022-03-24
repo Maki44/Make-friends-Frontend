@@ -10,7 +10,7 @@
 
 ## **Introduction**
 
-Hi, my name is Andre, and this is my portfolio project, a web application App called Traveler's Diary. This is a MVP and not the final version. It is fully functional but missing some features that will be implemented in the future.
+Hi, my name is Makda, and this is my portfolio project, called Moody. This is a MVP and not the final version. It is fully functional but I am going to change it to mobile app this is the web app version.
 
 ## **Moody**
 
