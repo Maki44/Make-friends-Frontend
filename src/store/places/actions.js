@@ -13,9 +13,9 @@ export const searchPlacesNearBy = (name) => {
     const { user } = getState();
     const { lat, lng } = user;
     try {
-      const response = await axios.get(
-        `${apiUrl}/activities/places/${name}/${lat}/${lng}`
-      );
+      const response = await axios.get(`${apiUrl}/activities/places`, {
+        params: { name, lat, lng },
+      });
       console.log("results from serach near by", response.data);
       const results = response.data.slice(0, 3);
       console.log(results);
