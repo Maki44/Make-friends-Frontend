@@ -25,6 +25,7 @@ const SetMood = () => {
         justifyContent: "space-around",
         flexDirection: "column",
         alignItems: "center",
+        marginTop: "150px",
       }}
     >
       {moods &&

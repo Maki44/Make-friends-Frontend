@@ -28,6 +28,7 @@ const Activities = (props) => {
         flexDirection: "row",
         alignItems: "center",
         flexWrap: "wrap",
+        marginTop: "30px",
       }}
     >
       {activities &&
@@ -36,9 +37,14 @@ const Activities = (props) => {
             <Activity key={i} activity={activity} socket={props.socket} />
           ))
         ) : (
-          <div>
+          <div style={{ marginTop: "300px" }}>
             <h2>No Activities Near You</h2>
-            <Button onClick={() => navigate("/setMood")}>Create One</Button>
+            <Button
+              style={{ marginLeft: "70px" }}
+              onClick={() => navigate("/setMood")}
+            >
+              Create One
+            </Button>
           </div>
         ))}
     </div>

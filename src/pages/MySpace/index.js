@@ -27,19 +27,22 @@ const MySpace = () => {
     }
   }, [token, navigate]);
   return (
-    <div>
+    <div style={{ marginTop: "50px" }}>
       <Container>
         {
           <Card>
-            <Button onClick={() => setEditMode(!editMode)}>
+            <Button size="sm" onClick={() => setEditMode(!editMode)}>
               {editMode ? "Close" : "Edit my space"}
             </Button>
-            <Button onClick={() => setAvatarMode(!avatarMode)} className="mt-2">
+            <Button
+              size="sm"
+              onClick={() => setAvatarMode(!avatarMode)}
+              className="mt-2"
+            >
               {avatarMode ? "Close" : "Update My Avatar"}
             </Button>
           </Card>
         }
-
         {editMode && (
           <Card>
             <MySpaceForm setEditMode={setEditMode} />
@@ -57,10 +60,10 @@ const MySpace = () => {
         style={{
           display: "flex",
           marginLeft: 580,
-          marginTop: 20,
+          marginTop: 50,
         }}
       >
-        <h3>Your username: {user.name}</h3>
+        <h3> {user.name}</h3>
       </div>
       <div style={{ display: "flex" }}>
         <div className="AvatarMySpace">

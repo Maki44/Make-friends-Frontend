@@ -12,7 +12,7 @@ const Places = (props) => {
     <Card border="primary" style={{ width: "18rem" }}>
       <Card.Body>
         <Card.Title>{name}</Card.Title>
-        <Card.Img variant="top" src={photo} />
+        <Card.Img style={{ width: "100%" }} variant="top" src={photo} />
         <Card.Text>{`rating ${rating}`}</Card.Text>
         <Button onClick={addLocation}>Add Location</Button>
       </Card.Body>

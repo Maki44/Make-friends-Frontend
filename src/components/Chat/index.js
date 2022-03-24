@@ -49,7 +49,7 @@ function Chat({ socket }) {
     }
   }, [token, navigate]);
   return (
-    <div className="chat-window">
+    <div style={{ marginTop: 50 }} className="chat-window">
       <div className="chat-header">
         <p>Live Chat</p>
       </div>

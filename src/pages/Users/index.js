@@ -27,8 +27,10 @@ const Users = () => {
       style={{
         display: "flex",
         justifyContent: "space-evenly",
-        flexDirection: "column",
+        flexDirection: "row",
         alignItems: "center",
+        flexWrap: "wrap",
+        marginTop: "30px",
       }}
     >
       {users && users.map((user) => <User key={user.id} user={user} />)}
